@@ -103,6 +103,12 @@
         .menu-btn:hover {
             transform: scale(1.1);
         }
+        
+        /* Mobile menu toggle with checkbox hack */
+        #menu-toggle {
+            display: none;
+        }
+        
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -115,9 +121,8 @@
                 text-align: center;
                 padding: 10px 0;
                 box-shadow: 0 10px 15px rgba(46, 125, 50, 0.3);
-                transition: all 0.4s ease;
             }
-            .nav-links.active {
+            #menu-toggle:checked + .nav-links {
                 display: flex;
                 animation: fadeInDown 0.4s ease;
             }
@@ -343,6 +348,38 @@
             margin: 0 auto;
             padding: 20px;
         }
+        
+        /* Navbar scroll effect with CSS only */
+        .navbar {
+            animation: checkScroll 0.3s forwards paused;
+        }
+        
+        @keyframes checkScroll {
+            to {
+                padding: 10px 20px;
+                box-shadow: 0 6px 15px rgba(46, 125, 50, 0.3);
+                background: rgba(46, 125, 50, 0.95);
+            }
+        }
+        
+        /* Apply scroll effect when body has scrolled */
+        body:has(:target) .navbar,
+        body.scrolled .navbar {
+            animation-play-state: running;
+        }
+        
+        /* Scroll reveal with CSS only */
+        @media (prefers-reduced-motion: no-preference) {
+            .reveal {
+                animation: fadeInUp 0.6s ease forwards paused;
+            }
+            
+            section:target .reveal,
+            section:has(:target) .reveal,
+            .reveal.in-view {
+                animation-play-state: running;
+            }
+        }
     </style>
 </head>
 <body>
@@ -350,62 +387,63 @@
     <!-- Navbar -->
     <nav class="navbar" id="navbar">
         <h1>Plant Medicine</h1>
+        <input type="checkbox" id="menu-toggle">
         <ul class="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#medicines">Medicines</a></li>
         </ul>
-        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <label for="menu-toggle" class="menu-btn">☰</label>
     </nav>
 
     <!-- Hero Section -->
     <header>
-        <h2 class="reveal">Healing Through Nature</h2>
-        <p class="reveal">Unlock the ancient wisdom of plants and harness their power for natural healing and well-being.</p>
+        <h2 class="reveal in-view">Healing Through Nature</h2>
+        <p class="reveal in-view">Unlock the ancient wisdom of plants and harness their power for natural healing and well-being.</p>
     </header>
 
     <div class="main-content">
         <!-- About Section -->
         <section id="about">
-            <h2 class="reveal">About Plant Medicine</h2>
-            <p class="reveal">For thousands of years, civilizations around the world have relied on plants for healing. Ancient remedies, derived from herbs, roots, and flowers, have helped treat illnesses and enhance well-being. From reducing inflammation to improving digestion, plant-based medicine offers a natural alternative to synthetic drugs.</p>
-            <p class="reveal">Today, modern science confirms what our ancestors knew—plants hold incredible healing potential. Whether you seek relief from pain, better immunity, or mental clarity, plant medicine can be a powerful ally.</p>
+            <h2 class="reveal in-view">About Plant Medicine</h2>
+            <p class="reveal in-view">For thousands of years, civilizations around the world have relied on plants for healing. Ancient remedies, derived from herbs, roots, and flowers, have helped treat illnesses and enhance well-being. From reducing inflammation to improving digestion, plant-based medicine offers a natural alternative to synthetic drugs.</p>
+            <p class="reveal in-view">Today, modern science confirms what our ancestors knew—plants hold incredible healing potential. Whether you seek relief from pain, better immunity, or mental clarity, plant medicine can be a powerful ally.</p>
         </section>
 
         <!-- Medicines Section -->
         <section id="medicines">
-              <h2 class="reveal">Natural Remedies & Benefits</h2>
+              <h2 class="reveal in-view">Natural Remedies & Benefits</h2>
               <div class="medicine-grid">
-                  <div class="medicine reveal">
+                  <div class="medicine reveal in-view">
                       <img src="./Images/Turmeric.jpg" alt="Turmeric">
                       <h3>Turmeric</h3>
                       <p>Known for its powerful anti-inflammatory properties, turmeric is a natural pain reliever and supports digestion.</p>
                       <span>Usage: Add to tea, mix with honey, or apply as a paste.</span>
                   </div>
-                  <div class="medicine reveal">
+                  <div class="medicine reveal in-view">
                       <img src="./Images/Aloe Vera1.jpg" alt="Aloe Vera">
                       <h3>Aloe Vera</h3>
                       <p>Used for centuries to soothe burns, improve digestion, and promote skin health.</p>
                       <span>Usage: Apply on the skin, drink aloe vera juice.</span>
                   </div>
-                  <div class="medicine reveal">
+                  <div class="medicine reveal in-view">
                       <img src="./Images/Ginger.jpg" alt="Ginger">
                       <h3>Ginger</h3>
                       <p>Helps with nausea, improves digestion, and reduces inflammation.</p>
                       <span>Usage: Boil in water for tea, add to meals, chew raw slices.</span>
                   </div>
-                  <div class="medicine reveal">
+                  <div class="medicine reveal in-view">
                       <img src="./Images/Chamomile.jpg" alt="Chamomile">
                       <h3>Chamomile</h3>
                       <p>Known for its calming effects, chamomile reduces stress and promotes sleep.</p>
                       <span>Usage: Brew into tea, use as a skin wash.</span>
                   </div>
-                  <div class="medicine reveal">
+                  <div class="medicine reveal in-view">
                       <img src="./Images/Peppermint.jpg" alt="Peppermint">
                       <h3>Peppermint</h3>
                       <p>Soothes stomach discomfort, relieves headaches, and improves focus.</p>
                       <span>Usage: Drink as tea, inhale as essential oil.</span>
                   </div>
-                  <div class="medicine reveal">
+                  <div class="medicine reveal in-view">
                       <img src="./Images/Lavender.jpg" alt="Lavender">
                       <h3>Lavender</h3>
                       <p>Reduces anxiety, promotes relaxation, and helps with insomnia.</p>
@@ -416,7 +454,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="reveal">
+    <footer class="reveal in-view">
         <p>© 2025 Plant Medicine. All Rights Reserved.</p>
         <p>Disclaimer: This site provides general information. Consult a professional before using any remedy.</p>
         <div class="social-icons">
@@ -425,38 +463,6 @@
           <a href="https://www.youtube.com/@all-puppy-stories" target="_blank">YouTube</a>
       </div>
     </footer>
-
-    <script>
-        function toggleMenu() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        }
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Scroll reveal animation
-        function reveal() {
-            const reveals = document.querySelectorAll('.reveal');
-            for (let i = 0; i < reveals.length; i++) {
-                const windowHeight = window.innerHeight;
-                const elementTop = reveals[i].getBoundingClientRect().top;
-                const elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add('active');
-                }
-            }
-        }
-        window.addEventListener('scroll', reveal);
-        // Initialize on load
-        reveal();
-    </script>
 
 </body>
 </html>
