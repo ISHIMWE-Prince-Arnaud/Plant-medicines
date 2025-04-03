@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Medicine - Natural Healing</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: black;
+            scroll-behavior: smooth;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+        }
+        
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(46, 125, 50, 0.9); /* Dark green with transparency */
+            padding: 15px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled {
+            padding: 10px 20px;
+            box-shadow: 0 6px 15px rgba(46, 125, 50, 0.3);
+            background: rgba(46, 125, 50, 0.95);
+        }
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled h1 {
+            font-size: 22px;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            margin: 0 2rem;
+            padding: 0;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        .nav-links a:hover {
+            color: #C8E6C9; /* Light green */
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #C8E6C9;
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hamburger Menu (For Mobile) */
+        .menu-btn {
+            margin: 0 2rem;
+            display: none;
+            font-size: 25px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .menu-btn:hover {
+            transform: scale(1.1);
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background: rgba(46, 125, 50, 0.95);
+                width: 100%;
+                text-align: center;
+                padding: 10px 0;
+                box-shadow: 0 10px 15px rgba(46, 125, 50, 0.3);
+                transition: all 0.4s ease;
+            }
+            .nav-links.active {
+                display: flex;
+                animation: fadeInDown 0.4s ease;
+            }
+            .menu-btn {
+                display: block;
+            }
+            .nav-links a {
+                padding: 10px;
+            }
+        }
+        
+        /* Hero Section */
+        header {
+            width: 84%;
+            margin: auto;
+            padding: 150px 20px;
+            border: none;
+            border-bottom-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+            text-align: center;
+            color: white;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: rgba(76, 175, 80, 0.7);
+            margin-top: 60px;
+        }
+        header h2 {
+            font-size: 40px;
+            margin-bottom: 10px;
+            animation: fadeInUp 1s ease;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        header p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: auto;
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sections */
+        section {
+            padding: 60px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        #about {
+            background: rgba(232, 245, 233, 0.9); /* Very light green */
+            padding: 80px 20px;
+        }
+        h2 {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 40px;
+            color: #2E7D32;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: #4CAF50;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+        }
+        h2:hover::after {
+            width: 100%;
+            background-color: #2E7D32;
+        }
+
+        /* Medicine Grid */
+        .medicine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: auto;
+        }
+        .medicine {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.1);
+            text-align: center;
+            border: 1px solid #C8E6C9;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        .medicine:nth-child(1) { animation-delay: 0.1s; }
+        .medicine:nth-child(2) { animation-delay: 0.2s; }
+        .medicine:nth-child(3) { animation-delay: 0.3s; }
+        .medicine:nth-child(4) { animation-delay: 0.4s; }
+        .medicine:nth-child(5) { animation-delay: 0.5s; }
+        .medicine:nth-child(6) { animation-delay: 0.6s; }
+        .medicine:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(46, 125, 50, 0.2);
+        }
+        .medicine img {
+            width: 100%;
+            border-radius: 10px;
+            height: 200px;
+            object-fit: cover;
+            border: 1px solid #4CAF50;
+            transition: all 0.3s ease;
+            filter: grayscale(20%);
+        }
+        .medicine:hover img {
+            transform: scale(1.03);
+            filter: grayscale(0%);
+        }
+        .medicine h3 {
+            margin: 15px 0 10px;
+            color: #2E7D32;
+            transition: all 0.3s ease;
+        }
+        .medicine:hover h3 {
+            color: #1B5E20;
+        }
+        .medicine p {
+            font-size: 14px;
+            color: black;
+            transition: all 0.3s ease;
+        }
+        .medicine span {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #388E3C;
+            transition: all 0.3s ease;
+        }
+        .medicine:hover span {
+            color: #2E7D32;
+        }
+
+        /* Footer */
+        footer {
+            width: 84%;
+            margin: auto;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            text-align: center;
+            background: rgba(27, 94, 32, 0.9); /* Very dark green */
+            color: white;
+            padding: 30px 20px;
+            margin-top: 40px;
+            box-shadow: 0 -5px 15px rgba(27, 94, 32, 0.2);
+        }
+        footer p {
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+        footer:hover p {
+            color: #C8E6C9;
+        }
+        footer .social-icons {
+            margin-top: 15px;
+        }
+        footer .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        footer .social-icons a:hover {
+            color: #A5D6A7; /* Light green */
+            transform: translateY(-3px) scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            position: relative;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+        .reveal.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Main Content Wrapper */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <h1>Plant Medicine</h1>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#medicines">Medicines</a></li>
+        </ul>
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header>
+        <h2 class="reveal">Healing Through Nature</h2>
+        <p class="reveal">Unlock the ancient wisdom of plants and harness their power for natural healing and well-being.</p>
+    </header>
+
+    <div class="main-content">
+        <!-- About Section -->
+        <section id="about">
+            <h2 class="reveal">About Plant Medicine</h2>
+            <p class="reveal">For thousands of years, civilizations around the world have relied on plants for healing. Ancient remedies, derived from herbs, roots, and flowers, have helped treat illnesses and enhance well-being. From reducing inflammation to improving digestion, plant-based medicine offers a natural alternative to synthetic drugs.</p>
+            <p class="reveal">Today, modern science confirms what our ancestors knew—plants hold incredible healing potential. Whether you seek relief from pain, better immunity, or mental clarity, plant medicine can be a powerful ally.</p>
+        </section>
+
+        <!-- Medicines Section -->
+        <section id="medicines">
+              <h2 class="reveal">Natural Remedies & Benefits</h2>
+              <div class="medicine-grid">
+                  <div class="medicine reveal">
+                      <img src="./Images/Turmeric.jpg" alt="Turmeric">
+                      <h3>Turmeric</h3>
+                      <p>Known for its powerful anti-inflammatory properties, turmeric is a natural pain reliever and supports digestion.</p>
+                      <span>Usage: Add to tea, mix with honey, or apply as a paste.</span>
+                  </div>
+                  <div class="medicine reveal">
+                      <img src="./Images/Aloe Vera1.jpg" alt="Aloe Vera">
+                      <h3>Aloe Vera</h3>
+                      <p>Used for centuries to soothe burns, improve digestion, and promote skin health.</p>
+                      <span>Usage: Apply on the skin, drink aloe vera juice.</span>
+                  </div>
+                  <div class="medicine reveal">
+                      <img src="./Images/Ginger.jpg" alt="Ginger">
+                      <h3>Ginger</h3>
+                      <p>Helps with nausea, improves digestion, and reduces inflammation.</p>
+                      <span>Usage: Boil in water for tea, add to meals, chew raw slices.</span>
+                  </div>
+                  <div class="medicine reveal">
+                      <img src="./Images/Chamomile.jpg" alt="Chamomile">
+                      <h3>Chamomile</h3>
+                      <p>Known for its calming effects, chamomile reduces stress and promotes sleep.</p>
+                      <span>Usage: Brew into tea, use as a skin wash.</span>
+                  </div>
+                  <div class="medicine reveal">
+                      <img src="./Images/Peppermint.jpg" alt="Peppermint">
+                      <h3>Peppermint</h3>
+                      <p>Soothes stomach discomfort, relieves headaches, and improves focus.</p>
+                      <span>Usage: Drink as tea, inhale as essential oil.</span>
+                  </div>
+                  <div class="medicine reveal">
+                      <img src="./Images/Lavender.jpg" alt="Lavender">
+                      <h3>Lavender</h3>
+                      <p>Reduces anxiety, promotes relaxation, and helps with insomnia.</p>
+                      <span>Usage: Use in aromatherapy, add to tea.</span>
+                  </div>
+              </div>
+          </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="reveal">
+        <p>© 2025 Plant Medicine. All Rights Reserved.</p>
+        <p>Disclaimer: This site provides general information. Consult a professional before using any remedy.</p>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/Mr.bear.46" target="_blank">Facebook</a>
+          <a href="https://www.instagram.com/mr_bear_64/" target="_blank">Instagram</a>
+          <a href="https://www.youtube.com/@all-puppy-stories" target="_blank">YouTube</a>
+      </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll reveal animation
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        window.addEventListener('scroll', reveal);
+        // Initialize on load
+        reveal();
+    </script>
+
+</body>
+</html>
